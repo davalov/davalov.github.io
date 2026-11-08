@@ -587,7 +587,7 @@ footer a{color:var(--wine);font-weight:700;text-decoration:none}
 
 <script>
 // Ссылки на оплату из ЮKassa: pack — весь пак, остальные — интерактивы по отдельности
-const PAY = { pack:"https://yookassa.ru/my/i/avAr7obLnT13/l", norm:"", elki:"", neelka:"", muz:"", normkids:"" };
+const PAY = { pack:"https://yookassa.ru/my/i/avAr7obLnT13/l", norm:"https://t.me/davalovslides/310", elki:"https://t.me/davalovslides/307", neelka:"https://t.me/davalovslides/281", muz:"https://t.me/davalovslides/275", normkids:"" };
 
 (function(){
   const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
@@ -598,7 +598,7 @@ const PAY = { pack:"https://yookassa.ru/my/i/avAr7obLnT13/l", norm:"", elki:"", 
   document.querySelectorAll('.pay').forEach(a=>{
     const url=PAY[a.dataset.pay];
     if(url){a.href=url;a.target='_blank';a.rel='noopener';}
-    else a.addEventListener('click',e=>{e.preventDefault();say('Ссылка на оплату появится совсем скоро');});
+    else if(a.dataset.pay!=='pack') a.hidden=true; else a.addEventListener('click',e=>{e.preventDefault();say('Ссылка на оплату появится совсем скоро');});
   });
 
   // гирлянда
