@@ -585,7 +585,7 @@ footer a{color:var(--wine);font-weight:700;text-decoration:none}
 
 <script>
 // Ссылки на оплату из ЮKassa: pack — весь пак, остальные — интерактивы по отдельности
-const F = "https://functions.yandexcloud.net/d4eui0r5v4n79il0k3db?a=pay&item="; const PAY = { pack:F+"pack", norm:F+"norm", elki:F+"elki", neelka:F+"neelka", muz:F+"muz", normkids:F+"normkids" };
+const UTM=(()=>{try{const p=new URLSearchParams(location.search);let s="";["utm_source","utm_medium","utm_campaign"].forEach(k=>{if(p.get(k))s+="&"+k+"="+encodeURIComponent(p.get(k))});return s}catch(e){return ""}})(); const F = "https://functions.yandexcloud.net/d4eui0r5v4n79il0k3db?a=pay&item="; const PAY = { pack:F+"pack", norm:F+"norm", elki:F+"elki", neelka:F+"neelka", muz:F+"muz", normkids:F+"normkids" };
 
 (function(){
   const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
@@ -594,7 +594,7 @@ const F = "https://functions.yandexcloud.net/d4eui0r5v4n79il0k3db?a=pay&item="; 
 
   // оплата
   document.querySelectorAll('.pay').forEach(a=>{
-    const url=PAY[a.dataset.pay];
+    const url=PAY[a.dataset.pay]&&(PAY[a.dataset.pay]+UTM);
     if(url){a.href=url;a.target='_blank';a.rel='noopener';a.addEventListener('click',()=>{try{ym(114133357,'reachGoal',a.dataset.pay==='pack'?'click_pack':'click_single',{item:a.dataset.pay})}catch(e){}});}
     else if(a.dataset.pay!=='pack') a.hidden=true; else a.addEventListener('click',e=>{e.preventDefault();say('Ссылка на оплату появится совсем скоро');});
   });
