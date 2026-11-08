@@ -620,7 +620,7 @@ const UTM=(()=>{try{const p=new URLSearchParams(location.search);let s="";["utm_
   }
   function openCell(c){
     if(c.classList.contains('open')) return;
-    c.classList.add('open');
+    c.classList.add('open'); if(!c._seen){c._seen=1;try{ym(114133357,'reachGoal','open_door',{item:c.dataset.key})}catch(e){}}
     const d=c.querySelector('.door'); d.setAttribute('aria-expanded','true'); d.tabIndex=-1;
     clearTimeout(c._t);
     c._t=setTimeout(()=>{
@@ -659,7 +659,7 @@ const UTM=(()=>{try{const p=new URLSearchParams(location.search);let s="";["utm_
     cells.forEach((c,i)=>setTimeout(()=>anyClosed?openCell(c):closeCell(c), reduce?0:i*200));
   });
 
-  // таймер
+  try{const seen={};const io=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting&&!seen[e.target.id]){seen[e.target.id]=1;try{ym(114133357,'reachGoal','reach_'+e.target.id)}catch(_){}}}),{threshold:0.25});['calendar','offer'].forEach(id=>{const el=document.getElementById(id);if(el)io.observe(el)})}catch(e){} // таймер
   const end=new Date('2026-11-11T23:59:59+03:00').getTime();
   const pad=n=>String(n).padStart(2,'0');
   const plural=(n,a,b,c)=>{const m=n%10,h=n%100;if(m===1&&h!==11)return a;if(m>=2&&m<=4&&(h<12||h>14))return b;return c;};
