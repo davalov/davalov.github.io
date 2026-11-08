@@ -317,8 +317,8 @@ footer a{color:var(--wine);font-weight:700;text-decoration:none}
 @media (min-width:641px){
   .cell:nth-child(even) .door{transform-origin:right center}
   .cell:nth-child(even) .door:hover{transform:rotateY(10deg)}
-if(url){a.href=url;a.target='_blank';a.rel='noopener';}  .cell:nth-child(even) .door .knob{right:auto;left:24px}
-if(url){a.href=url;a.target='_blank';a.rel='noopener';a.addEventListener('click',()=>{try{ym(114133357,'reachGoal',a.dataset.pay==='pack'?'click_pack':'click_single',{item:a.dataset.pay})}catch(e){}});}@media (max-width:1024px){ .hero .deco,.offer .deco{display:none} }
+  .cell.open:nth-child(even) .door{transform:rotateY(106deg)} .cell:nth-child(even) .door .knob{right:auto;left:24px}
+@media (max-width:1024px){ .hero .deco,.offer .deco{display:none} }
 @media (max-width:760px){
   .hero-text .facts li{padding:0}
   .hero-text .facts li::before{display:none!important}
@@ -333,7 +333,7 @@ if(url){a.href=url;a.target='_blank';a.rel='noopener';a.addEventListener('click'
 
 @media (min-width:641px){ .cell:nth-child(5){grid-column:1 / -1;width:calc(50% - 20px);justify-self:center;margin-top:0} }
 </style>
-</head>
+<script>(function(m,e,t,r,i,k,a){m[i]=m[i]||function(){(m[i].a=m[i].a||[]).push(arguments)};m[i].l=1*new Date();for(var j=0;j<document.scripts.length;j++){if(document.scripts[j].src===r){return;}}k=e.createElement(t),a=e.getElementsByTagName(t)[0],k.async=1,k.src=r,a.parentNode.insertBefore(k,a)})(window,document,'script','https://mc.yandex.ru/metrika/tag.js','ym');window.dataLayer=window.dataLayer||[];ym(114133357,'init',{webvisor:true,clickmap:true,accurateTrackBounce:true,trackLinks:true,ecommerce:'dataLayer'});</script><noscript><div><img src="https://mc.yandex.ru/watch/114133357" style="position:absolute;left:-9999px" alt=""></div></noscript></head>
 <body>
 
 
@@ -595,7 +595,7 @@ const F = "https://functions.yandexcloud.net/d4eui0r5v4n79il0k3db?a=pay&item="; 
   // оплата
   document.querySelectorAll('.pay').forEach(a=>{
     const url=PAY[a.dataset.pay];
-    if(url){a.href=url;a.target='_blank';a.rel='noopener';}
+    if(url){a.href=url;a.target='_blank';a.rel='noopener';a.addEventListener('click',()=>{try{ym(114133357,'reachGoal',a.dataset.pay==='pack'?'click_pack':'click_single',{item:a.dataset.pay})}catch(e){}});}
     else if(a.dataset.pay!=='pack') a.hidden=true; else a.addEventListener('click',e=>{e.preventDefault();say('Ссылка на оплату появится совсем скоро');});
   });
 
