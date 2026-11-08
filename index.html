@@ -587,7 +587,7 @@ footer a{color:var(--wine);font-weight:700;text-decoration:none}
 
 <script>
 // Ссылки на оплату из ЮKassa: pack — весь пак, остальные — интерактивы по отдельности
-const PAY = { pack:"https://yookassa.ru/my/i/avAr7obLnT13/l", norm:"https://t.me/davalovslides/310", elki:"https://t.me/davalovslides/307", neelka:"https://t.me/davalovslides/281", muz:"https://t.me/davalovslides/275", normkids:"" };
+const F = "https://functions.yandexcloud.net/d4eui0r5v4n79il0k3db?a=pay&item="; const PAY = { pack:F+"pack", norm:F+"norm", elki:F+"elki", neelka:F+"neelka", muz:F+"muz", normkids:F+"normkids" };
 
 (function(){
   const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
