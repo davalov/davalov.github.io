@@ -18,12 +18,9 @@ body{margin:0;min-height:100vh;display:grid;place-items:center;text-align:center
 .script{font-family:"Great Vibes",cursive;font-size:clamp(54px,10vw,84px);line-height:1.2;background:linear-gradient(180deg,#E9C77E,#C99A45 45%,#9C7230);-webkit-background-clip:text;background-clip:text;color:transparent;padding:0 .15em}
 h1{font-family:"Yeseva One",Georgia,serif;font-weight:400;font-size:clamp(28px,5vw,44px);line-height:1.15;text-transform:uppercase;margin:6px 0 0;text-wrap:balance}
 p{font-size:17px;line-height:1.6;color:rgba(251,241,226,.85);margin:18px auto 0;max-width:30em}
-.list{list-style:none;padding:0;margin:26px auto 0;display:grid;gap:8px;max-width:360px;text-align:left}
-.list{max-width:460px}
-.list a{display:flex;justify-content:space-between;align-items:center;gap:12px;padding:14px 16px;border:1px solid rgba(201,154,69,.45);border-radius:10px;font-weight:700;color:var(--cream);text-decoration:none;transition:background .2s}
-.list a:hover{background:rgba(201,154,69,.15)}
-.list a span{color:var(--gold-hi);font-size:14px;white-space:nowrap}
-
+.list{list-style:none;padding:0;margin:26px auto 0;display:grid;gap:8px;max-width:460px;text-align:left}
+.list li{padding:12px 16px;border:1px solid rgba(201,154,69,.4);border-radius:10px;font-weight:600;text-align:left}
+.list li::before{content:"✦";color:var(--gold);margin-right:10px}
 .cta{display:inline-flex;align-items:center;gap:12px;margin-top:32px;padding:19px 34px;border-radius:999px;text-decoration:none;font-weight:800;font-size:17px;color:var(--velvet);background:linear-gradient(180deg,#F3DCA5,#D6AA57 55%,#B78636);box-shadow:0 14px 28px -12px rgba(0,0,0,.6)}
 .cta:hover{filter:brightness(1.06)}
 .note{font-size:14px;color:rgba(251,241,226,.65)}
@@ -34,14 +31,15 @@ p{font-size:17px;line-height:1.6;color:rgba(251,241,226,.85);margin:18px auto 0;
 <main class="box">
   <div class="script">Спасибо!</div>
   <h1>Твой новогодний пак готов</h1>
-  <p>Оплата прошла. Скачай каждый интерактив по кнопке ниже. Ссылки открывают папки на Google Диске.</p>
+  <p>Оплата прошла. Нажми на кнопку, открой папку и скачай все интерактивы разом.</p>
   <ul class="list">
-    <li><a href="https://drive.google.com/drive/folders/1_mxQD68PXYRybHRFx_3TvikLK3HPzx09?usp=sharing" target="_blank" rel="noopener">Норм или стрём<span>Скачать →</span></a></li>
-    <li><a href="https://drive.google.com/drive/folders/1Wwuohv4SIEuLPNLqumXJZzGpqgUbUDE8?usp=sharing" target="_blank" rel="noopener">Ёлки Палки<span>Скачать →</span></a></li>
-    <li><a href="https://drive.google.com/drive/folders/1JJZgonpOcfJzuX3vYDC5d7mQXSywHrQN?usp=sharing" target="_blank" rel="noopener">Не ёлка?<span>Скачать →</span></a></li>
-    <li><a href="https://drive.google.com/drive/folders/1pW2bCNolngL20mY-b48m2CZjIhvEhEpQ?usp=sharing" target="_blank" rel="noopener">Новогодняя музыкальная викторина<span>Скачать →</span></a></li>
-    <li><a href="https://drive.google.com/drive/folders/1lmB9fq_E4PXWW_N4y5MYaa5aw1bt4NfH?usp=sharing" target="_blank" rel="noopener">Норм или стрём. Детская версия<span>Скачать →</span></a></li>
+    <li>Норм или стрём</li>
+    <li>Ёлки Палки</li>
+    <li>Не ёлка?</li>
+    <li>Новогодняя музыкальная викторина</li>
+    <li>Норм или стрём. Детская версия</li>
   </ul>
+  <a class="cta" href="https://drive.google.com/drive/folders/1RUFx1eQERNKfsAzq0V3pG8foUpKKksh0?usp=sharing" target="_blank" rel="noopener">Скачать все интерактивы →</a>
   <p class="note">Сохрани эту страницу в закладки, чтобы вернуться к файлам. Если что-то не открывается, напиши в <a href="https://t.me/davalovslides?direct" target="_blank" rel="noopener">поддержку</a>.</p>
   <p class="note">Паша, Слайды Давалова</p>
 </main>
