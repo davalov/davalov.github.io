@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<meta name="description" content="До 11.11 пак из 4 новогодних интерактивов для ведущих и аниматоров за 2 490 ₽">
+<meta name="description" content="До 11.11 пак из 5 новогодних интерактивов для ведущих и аниматоров за 2 490 ₽">
 <title>Новогодний пак Давалова</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -332,6 +332,8 @@ footer a{color:var(--wine);font-weight:700;text-decoration:none}
   .row{font-size:15px}
   .lights{height:56px}
 }
+
+@media (min-width:641px){ .cell:nth-child(5){grid-column:1 / -1;width:calc(50% - 20px);justify-self:center;margin-top:0} }
 </style>
 </head>
 <body>
@@ -454,6 +456,20 @@ footer a{color:var(--wine);font-weight:700;text-decoration:none}
         </div>
         <button class="door" type="button" aria-expanded="false" aria-label="Открыть дверцу 31"><span class="knob"></span><span class="num">31</span><span class="hint">Открыть</span></button>
       </div>
+      <div class="cell" data-key="normkids">
+        <div class="recess">
+          <span class="lamp"></span><span class="glow"></span>
+          <div class="card">
+            <button class="close" type="button" aria-label="Закрыть дверцу">×</button>
+            <div class="screen"><video src="normkids.mp4" poster="normkids.jpg" muted loop playsinline preload="none"></video><button class="mute" type="button" aria-label="Включить звук"><svg><use href="#snd-off"/></svg></button></div>
+            <h3>Норм или стрём. Детская версия</h3>
+            <p>Тот же любимый формат, но с детскими новогодними ситуациями: искать подарки по дому, дёргать Деда Мороза за бороду, оставлять в письме артикулы с маркетплейсов. Дети спорят и хохочут.</p>
+            <span class="chip">Для детей</span>
+            <div class="buy"><span class="pr">Отдельно<b>2 990 ₽</b></span><a class="pay" data-pay="normkids" href="#">Купить отдельно</a></div>
+          </div>
+        </div>
+        <button class="door" type="button" aria-expanded="false" aria-label="Открыть дверцу 6"><span class="knob"></span><span class="num">6</span><span class="hint">Открыть</span></button>
+      </div>
     </div>
   </div>
 </section>
@@ -471,13 +487,14 @@ footer a{color:var(--wine);font-weight:700;text-decoration:none}
       <div class="row"><span class="n">Ёлки Палки</span><span class="dots"></span><span class="p">4 790 ₽</span></div>
       <div class="row"><span class="n">Не ёлка?</span><span class="dots"></span><span class="p">2 790 ₽</span></div>
       <div class="row"><span class="n">Музыкальная викторина</span><span class="dots"></span><span class="p">4 990 ₽</span></div>
-      <div class="sum"><span>Итого</span><s>15 560 ₽</s></div>
+<div class="row"><span class="n">Норм или стрём. Детская</span><span class="dots"></span><span class="p">2 990 ₽</span></div>
+      <div class="sum"><span>Итого</span><s>18 550 ₽</s></div>
       <div class="final-price">
-        <div class="t">Все 4 интерактива</div>
+        <div class="t">Все 5 интерактивов</div>
         <div class="big">2 490 ₽</div>
-        <span class="save">Выгода 13 070 ₽</span>
+        <span class="save">Выгода 16 060 ₽</span>
       </div>
-      <a class="cta pay" data-pay="pack" href="#">Забрать все 4 за 2 490 ₽ <svg><use href="#arrow"/></svg></a>
+      <a class="cta pay" data-pay="pack" href="#">Забрать все 5 за 2 490 ₽ <svg><use href="#arrow"/></svg></a>
       <p class="mini">Цена действует ещё <b data-short>…</b></p>
     </div>
   </div>
@@ -539,7 +556,7 @@ footer a{color:var(--wine);font-weight:700;text-decoration:none}
     <h2>Что обычно спрашивают</h2>
     <div class="qa">
       <details><summary>До какого числа действует цена 2 490 ₽?</summary><p>До 11 ноября включительно, до 23:59 по Москве. Это моя скидка в честь Чёрной пятницы, потом её не будет.</p></details>
-      <details><summary>Подойдут ли интерактивы для детей?</summary><p>Почти все мои интерактивы подходят и для детей от 13–14 лет. Если сомневаешься насчёт конкретного, напиши в поддержку, подскажем.</p></details>
+      <details><summary>Подойдут ли интерактивы для детей?</summary><p>Почти все мои интерактивы подходят и для детей от 13–14 лет. А для малышей в паке есть детская версия «Норм или стрём». Если сомневаешься насчёт конкретного, напиши в поддержку, подскажем.</p></details>
       <details><summary>Можно купить только один интерактив?</summary><p>Можно. Открой нужную дверцу в календаре и нажми «Купить отдельно». После оплаты попадёшь на страницу именно с этим интерактивом.</p></details>
       <details><summary>Что-то не получается с файлами. Куда писать?</summary><p>В мою службу поддержки в Telegram: <a href="https://t.me/davalovslides?direct" target="_blank" rel="noopener">t.me/davalovslides</a>. Там помогут с любыми техническими вопросами.</p></details>
     </div>
@@ -555,7 +572,7 @@ footer a{color:var(--wine);font-weight:700;text-decoration:none}
       <figcaption class="script">Жду тебя, Паша</figcaption>
     </figure>
     <span class="script big-script">С наступающим!</span>
-    <h2>Забирай все 4 интерактива за 2 490 ₽</h2>
+    <h2>Забирай все 5 интерактивов за 2 490 ₽</h2>
     <p class="mini">До конца скидки <b data-short>…</b></p>
     <a class="cta pay" data-pay="pack" href="#">Забрать новогодний пак <svg><use href="#arrow"/></svg></a>
     <p class="help">Остались вопросы? <a href="https://t.me/davalovslides?direct" target="_blank" rel="noopener">Напиши в поддержку</a></p>
@@ -570,7 +587,7 @@ footer a{color:var(--wine);font-weight:700;text-decoration:none}
 
 <script>
 // Ссылки на оплату из ЮKassa: pack — весь пак, остальные — интерактивы по отдельности
-const PAY = { pack:"https://yookassa.ru/my/i/avAr7obLnT13/l", norm:"", elki:"", neelka:"", muz:"" };
+const PAY = { pack:"https://yookassa.ru/my/i/avAr7obLnT13/l", norm:"", elki:"", neelka:"", muz:"", normkids:"" };
 
 (function(){
   const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
