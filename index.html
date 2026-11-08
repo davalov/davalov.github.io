@@ -317,10 +317,8 @@ footer a{color:var(--wine);font-weight:700;text-decoration:none}
 @media (min-width:641px){
   .cell:nth-child(even) .door{transform-origin:right center}
   .cell:nth-child(even) .door:hover{transform:rotateY(10deg)}
-  .cell.open:nth-child(even) .door{transform:rotateY(106deg)}
-  .cell:nth-child(even) .door .knob{right:auto;left:24px}
-}
-@media (max-width:1024px){ .hero .deco,.offer .deco{display:none} }
+if(url){a.href=url;a.target='_blank';a.rel='noopener';}  .cell:nth-child(even) .door .knob{right:auto;left:24px}
+if(url){a.href=url;a.target='_blank';a.rel='noopener';a.addEventListener('click',()=>{try{ym(114133357,'reachGoal',a.dataset.pay==='pack'?'click_pack':'click_single',{item:a.dataset.pay})}catch(e){}});}@media (max-width:1024px){ .hero .deco,.offer .deco{display:none} }
 @media (max-width:760px){
   .hero-text .facts li{padding:0}
   .hero-text .facts li::before{display:none!important}
