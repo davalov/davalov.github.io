@@ -195,6 +195,15 @@ p{margin:0}
 
 /* offer */
 .offer{padding-block:100px 40px;position:relative}
+.krug{display:flex;flex-direction:column;align-items:center;gap:14px;margin:0 auto 54px}
+.krug-btn{position:relative;width:clamp(200px,30vw,250px);aspect-ratio:1;max-width:100%;border-radius:50%;padding:0;border:0;background:var(--wine);cursor:pointer;box-shadow:0 0 0 4px #fff,0 0 0 6px var(--gold),0 26px 50px -24px rgba(91,14,23,.6)}
+.krug-btn video{width:100%;height:100%;object-fit:cover;border-radius:50%;display:block}
+.krug-ring{position:absolute;inset:-12px;width:calc(100% + 24px);height:calc(100% + 24px);transform:rotate(-90deg);pointer-events:none}
+.krug-ring circle{fill:none;stroke:var(--wine);stroke-width:2.4;stroke-linecap:round;stroke-dasharray:301.6;stroke-dashoffset:301.6}
+.krug-ic{position:absolute;right:4%;bottom:4%;width:44px;height:44px;border-radius:50%;background:var(--wine);color:#fff;display:grid;place-items:center;box-shadow:0 0 0 2px var(--gold-hi);transition:opacity .25s,transform .25s}
+.krug-ic svg{width:22px;height:22px}
+.krug.on .krug-ic{opacity:0;transform:scale(.6)}
+.krug-cap{margin:0;font-size:14px;font-weight:700;color:var(--wine);letter-spacing:.02em}
 .offer .script{font-size:clamp(50px,7vw,78px)}
 .offer h2{font-size:clamp(28px,4.4vw,48px);color:var(--wine);text-shadow:var(--vol);text-transform:uppercase;max-width:16em;margin:6px auto 0}
 .receipt{position:relative;max-width:560px;margin:50px auto 0;background:#fff;padding:40px clamp(20px,5vw,44px) 44px;border-radius:6px;
@@ -505,6 +514,14 @@ footer a{color:var(--wine);font-weight:700;text-decoration:none}
   <svg class="deco star" style="width:26px;top:70px;left:14%"><use href="#st"/></svg>
   <svg class="deco star" style="width:16px;top:130px;right:15%"><use href="#st"/></svg>
   <div class="wrap">
+    <div class="krug">
+      <button class="krug-btn" type="button" aria-label="Послушать Пашу">
+        <video src="krug.mp4" poster="krug.jpg" muted playsinline loop preload="metadata"></video>
+        <svg class="krug-ring" viewBox="0 0 100 100" aria-hidden="true"><circle cx="50" cy="50" r="48"/></svg>
+        <span class="krug-ic" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M11 5 6 9H2v6h4l5 4V5Z"/><path d="M15.5 8.5a5 5 0 0 1 0 7M19 5a10 10 0 0 1 0 14"/></svg></span>
+      </button>
+      <p class="krug-cap">Нажми, чтобы послушать</p>
+    </div>
     <span class="script">Чёрная пятница</span>
     <h2>До 11.11 тебе не нужно покупать их по отдельности</h2>
     <div class="receipt">
@@ -742,6 +759,21 @@ const UTM=(()=>{try{const p=new URLSearchParams(location.search);let s="";["utm_
     if(s===0) q('[data-note]').textContent='Скидка Чёрной пятницы закончилась';
   }
   tick(); setInterval(tick,1000);
+  // кружок Паши: без звука по кругу, по нажатию — со звуком с начала
+  try{
+    const kw=document.querySelector('.krug'),kb=kw.querySelector('.krug-btn'),kv=kb.querySelector('video'),kc=kw.querySelector('.krug-cap'),kr=kw.querySelector('.krug-ring circle');
+    const L=301.6,cap0=kc.textContent;
+    const idle=()=>{kv.muted=true;kv.loop=true;kw.classList.remove('on');kc.textContent=cap0;kr.style.strokeDashoffset=L};
+    let vis=false;
+    new IntersectionObserver(es=>{vis=es[0].isIntersecting;if(vis){if(kv.muted&&!reduce)kv.play().catch(()=>{})}else kv.pause()},{threshold:.4}).observe(kb);
+    kb.addEventListener('click',()=>{
+      if(kv.muted){kv.muted=false;kv.loop=false;kv.currentTime=0;kv.play().catch(()=>{});kw.classList.add('on');kc.textContent='Нажми ещё раз — пауза';try{ym(114133357,'reachGoal','krug_play')}catch(e){}}
+      else if(kv.paused){kv.play().catch(()=>{});kw.classList.add('on');kc.textContent='Нажми ещё раз — пауза'}
+      else{kv.pause();kw.classList.remove('on');kc.textContent='Продолжить'}
+    });
+    kv.addEventListener('timeupdate',()=>{if(!kv.muted&&kv.duration)kr.style.strokeDashoffset=L*(1-kv.currentTime/kv.duration)});
+    kv.addEventListener('ended',()=>{idle();if(vis&&!reduce)kv.play().catch(()=>{})});
+  }catch(e){}
 })();
 </script>
 
