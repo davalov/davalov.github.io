@@ -85,6 +85,15 @@ p{margin:0}
 .sep{font-family:var(--f-display);font-weight:800;font-size:clamp(32px,6vw,64px);color:var(--gold);line-height:1;padding-top:.25em}
 .timer-note{margin-top:22px;font-weight:600;color:var(--wine)}
 .hero .cta{margin-top:34px}
+.cta-wrap{position:relative;display:inline-block;margin-top:34px}
+.hero .cta-wrap .cta{margin-top:0}
+.peek{position:absolute;right:calc(100% + 6px);bottom:-80px;width:clamp(200px,24vw,340px);aspect-ratio:2/1;pointer-events:none}
+.peek video{width:100%;height:100%;display:block;mix-blend-mode:multiply}
+@media (max-width:760px){
+  .hero{padding-bottom:0}
+  .cta-wrap{display:flex;flex-direction:column;align-items:center}
+  .peek{position:static;order:2;width:min(88vw,420px);margin-top:22px}
+}
 .bow{width:86px;position:absolute;top:-46px;left:50%;margin-left:-43px}
 
 /* intro */
@@ -117,9 +126,9 @@ p{margin:0}
 @media (max-width:640px){.facts{flex-direction:column;gap:6px}.facts li+li::before{display:none}}
 
 
-.hero-row{display:grid;grid-template-columns:minmax(0,1.1fr) minmax(0,1fr);gap:56px;align-items:center;max-width:1060px;margin:34px auto 0;text-align:left}
+.hero-row{display:grid;grid-template-columns:minmax(0,1fr);gap:34px;align-items:center;max-width:900px;margin:34px auto 0;text-align:center}
 .hero-row .me{width:100%;margin:0}
-.hello{display:flex;flex-direction:column;align-items:center;gap:14px;min-width:0}
+.hello{display:flex;flex-direction:column;align-items:center;gap:14px;min-width:0;width:100%;max-width:860px;margin-inline:auto}
 .hello-btn{position:relative;width:100%;aspect-ratio:16/9;padding:0;border:0;border-radius:18px;overflow:hidden;background:var(--wine);cursor:pointer;box-shadow:0 0 0 5px #fff,0 0 0 6px var(--gold),0 26px 50px -24px rgba(91,14,23,.6)}
 .hello-btn video{width:100%;height:100%;object-fit:cover;display:block}
 .hello-bar{position:absolute;left:0;right:0;bottom:0;height:4px;background:rgba(255,255,255,.3);opacity:0;transition:opacity .2s}
@@ -128,12 +137,12 @@ p{margin:0}
 .hello .krug-ic{right:12px;bottom:12px}
 .hello.on .krug-ic{opacity:0;transform:scale(.6)}
 .hero-text{min-width:0}
-.hero-text h1{margin-left:0;margin-right:0}
+.hero-text h1{margin-inline:auto}
 .hero-text .script.hi{margin-top:0;padding-left:0}
-.hero-text .lead{margin-inline:0}
-.hero-text .facts{flex-direction:column;align-items:flex-start;gap:6px;margin-inline:0}
-.hero-text .facts li{padding:0 0 0 18px}
-.hero-text .facts li::before{content:"";display:block!important;position:absolute;left:0;top:50%;width:6px;height:6px;margin-top:-3px;border-radius:50%;background:var(--gold)}
+.hero-text .lead{margin-inline:auto}
+.hero-text .facts{flex-direction:column;align-items:center;gap:6px;margin-inline:auto}
+.hero-text .facts li{padding:0}
+.hero-text .facts li::before{display:none!important}
 @media (max-width:760px){
   .hero-row{grid-template-columns:1fr;gap:26px;text-align:center}
   .hero-row .me{width:min(62vw,240px);margin:0 auto}
@@ -420,7 +429,6 @@ footer a{color:var(--wine);font-weight:700;text-decoration:none}
   <svg class="deco star" style="width:14px;top:290px;right:18%"><use href="#st"/></svg>
   <div class="wrap">
     <div class="logo"><i></i>Слайды Давалова</div><br>
-    <div class="ribbon">Чёрная пятница</div>
     <div class="hero-row">
     <div class="hello">
       <button class="hello-btn" type="button" aria-label="Послушать приветствие Паши">
@@ -448,7 +456,10 @@ footer a{color:var(--wine);font-weight:700;text-decoration:none}
       <div class="tb"><b data-s>00</b><span>секунд</span></div>
     </div>
     <p class="timer-note" data-note>Спецпредложение сгорит 11 ноября в 23:59 по Москве</p>
-    <a class="cta" href="#calendar">Смотреть интерактивы <svg><use href="#down"/></svg></a>
+    <div class="cta-wrap">
+      <div class="peek" aria-hidden="true"><video src="peek.mp4" poster="peek.jpg" muted playsinline loop autoplay preload="auto"></video></div>
+      <a class="cta" href="#calendar">Смотреть интерактивы <svg><use href="#down"/></svg></a>
+    </div>
   </div>
 </header>
 
