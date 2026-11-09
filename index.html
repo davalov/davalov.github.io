@@ -117,8 +117,16 @@ p{margin:0}
 @media (max-width:640px){.facts{flex-direction:column;gap:6px}.facts li+li::before{display:none}}
 
 
-.hero-row{display:grid;grid-template-columns:minmax(0,320px) minmax(0,1fr);gap:56px;align-items:center;max-width:980px;margin:34px auto 0;text-align:left}
+.hero-row{display:grid;grid-template-columns:minmax(0,1.1fr) minmax(0,1fr);gap:56px;align-items:center;max-width:1060px;margin:34px auto 0;text-align:left}
 .hero-row .me{width:100%;margin:0}
+.hello{display:flex;flex-direction:column;align-items:center;gap:14px;min-width:0}
+.hello-btn{position:relative;width:100%;aspect-ratio:16/9;padding:0;border:0;border-radius:18px;overflow:hidden;background:var(--wine);cursor:pointer;box-shadow:0 0 0 5px #fff,0 0 0 6px var(--gold),0 26px 50px -24px rgba(91,14,23,.6)}
+.hello-btn video{width:100%;height:100%;object-fit:cover;display:block}
+.hello-bar{position:absolute;left:0;right:0;bottom:0;height:4px;background:rgba(255,255,255,.3);opacity:0;transition:opacity .2s}
+.hello-bar i{display:block;height:100%;width:0;background:var(--gold-hi)}
+.hello.on .hello-bar{opacity:1}
+.hello .krug-ic{right:12px;bottom:12px}
+.hello.on .krug-ic{opacity:0;transform:scale(.6)}
 .hero-text{min-width:0}
 .hero-text h1{margin-left:0;margin-right:0}
 .hero-text .script.hi{margin-top:0;padding-left:0}
@@ -212,9 +220,9 @@ p{margin:0}
   .offer-head{gap:16px;margin-bottom:36px}
   .krug-btn{width:124px}
   .krug-ring{inset:-8px;width:calc(100% + 16px);height:calc(100% + 16px)}
-  .krug-ic{width:32px;height:32px;right:0;bottom:0}
-  .krug-ic svg{width:17px;height:17px}
-  .krug-cap{font-size:12px;text-align:center;max-width:124px}
+  .krug .krug-ic{width:32px;height:32px;right:0;bottom:0}
+  .krug .krug-ic svg{width:17px;height:17px}
+  .krug .krug-cap{font-size:12px;text-align:center;max-width:124px}
   .offer .offer-title .script{font-size:min(31px,8vw);white-space:nowrap}
   .offer .offer-title h2{font-size:min(20px,5.6vw)}
 }
@@ -411,7 +419,14 @@ footer a{color:var(--wine);font-weight:700;text-decoration:none}
     <div class="logo"><i></i>Слайды Давалова</div><br>
     <div class="ribbon">Чёрная пятница</div>
     <div class="hero-row">
-    <div class="me"><div class="arch"><img src="santa.jpg" alt="Паша Давалов в костюме Деда Мороза"></div></div>
+    <div class="hello">
+      <button class="hello-btn" type="button" aria-label="Послушать приветствие Паши">
+        <video src="hello.mp4" poster="hello.jpg" muted playsinline loop preload="metadata"></video>
+        <span class="hello-bar" aria-hidden="true"><i></i></span>
+        <span class="krug-ic" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M11 5 6 9H2v6h4l5 4V5Z"/><path d="M15.5 8.5a5 5 0 0 1 0 7M19 5a10 10 0 0 1 0 14"/></svg></span>
+      </button>
+      <p class="krug-cap">Нажми, чтобы послушать</p>
+    </div>
     <div class="hero-text">
     <h1>Забирай 5 новогодних интерактивов с большой скидкой&nbsp;— только до&nbsp;11.11!</h1>
     <p class="lead">Я Паша, создатель интерактивов для ведущих и аниматоров.</p>
@@ -778,20 +793,26 @@ const UTM=(()=>{try{const p=new URLSearchParams(location.search);let s="";["utm_
     if(s===0) q('[data-note]').textContent='Скидка Чёрной пятницы закончилась';
   }
   tick(); setInterval(tick,1000);
-  // кружок Паши: без звука по кругу, по нажатию — со звуком с начала
+  // видео Паши (приветствие и кружок): без звука по кругу, по нажатию — со звуком с начала
   try{
-    const kw=document.querySelector('.krug'),kb=kw.querySelector('.krug-btn'),kv=kb.querySelector('video'),kc=kw.querySelector('.krug-cap'),kr=kw.querySelector('.krug-ring circle');
-    const L=301.6,cap0=kc.textContent;
-    const idle=()=>{kv.muted=true;kv.loop=true;kw.classList.remove('on');kc.textContent=cap0;kr.style.strokeDashoffset=L};
-    let vis=false;
-    new IntersectionObserver(es=>{vis=es[0].isIntersecting;if(vis){if(kv.muted&&!reduce)kv.play().catch(()=>{})}else kv.pause()},{threshold:.4}).observe(kb);
-    kb.addEventListener('click',()=>{
-      if(kv.muted){kv.muted=false;kv.loop=false;kv.currentTime=0;kv.play().catch(()=>{});kw.classList.add('on');kc.textContent='Нажми ещё раз — пауза';try{ym(114133357,'reachGoal','krug_play')}catch(e){}}
-      else if(kv.paused){kv.play().catch(()=>{});kw.classList.add('on');kc.textContent='Нажми ещё раз — пауза'}
-      else{kv.pause();kw.classList.remove('on');kc.textContent='Продолжить'}
-    });
-    kv.addEventListener('timeupdate',()=>{if(!kv.muted&&kv.duration)kr.style.strokeDashoffset=L*(1-kv.currentTime/kv.duration)});
-    kv.addEventListener('ended',()=>{idle();if(vis&&!reduce)kv.play().catch(()=>{})});
+    const talks=[];
+    function talk(kw,goal,prog){
+      const kb=kw.querySelector('button'),kv=kb.querySelector('video'),kc=kw.querySelector('.krug-cap'),cap0=kc.textContent;
+      let vis=false;
+      const t={idle(){kv.muted=true;kv.loop=true;kw.classList.remove('on');kc.textContent=cap0;prog(0);if(vis&&!reduce)kv.play().catch(()=>{})},kv};
+      talks.push(t);
+      new IntersectionObserver(es=>{vis=es[0].isIntersecting;if(vis){if(kv.muted&&!reduce)kv.play().catch(()=>{})}else kv.pause()},{threshold:.4}).observe(kb);
+      kb.addEventListener('click',()=>{
+        if(kv.muted){talks.forEach(o=>{if(o!==t&&!o.kv.muted)o.idle()});kv.muted=false;kv.loop=false;kv.currentTime=0;kv.play().catch(()=>{});kw.classList.add('on');kc.textContent='Нажми ещё раз — пауза';try{ym(114133357,'reachGoal',goal)}catch(e){}}
+        else if(kv.paused){kv.play().catch(()=>{});kw.classList.add('on');kc.textContent='Нажми ещё раз — пауза'}
+        else{kv.pause();kw.classList.remove('on');kc.textContent='Продолжить'}
+      });
+      kv.addEventListener('timeupdate',()=>{if(!kv.muted&&kv.duration)prog(kv.currentTime/kv.duration)});
+      kv.addEventListener('ended',()=>t.idle());
+    }
+    const kr=document.querySelector('.krug-ring circle'),L=301.6,hb=document.querySelector('.hello-bar i');
+    talk(document.querySelector('.hello'),'hello_play',p=>{hb.style.width=(p*100)+'%'});
+    talk(document.querySelector('.krug'),'krug_play',p=>{kr.style.strokeDashoffset=L*(1-p)});
   }catch(e){}
 })();
 </script>
