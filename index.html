@@ -147,6 +147,7 @@ p{margin:0}
 
 .doors{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:40px 40px;max-width:940px;margin:56px auto 0;text-align:left}
 .cell{position:relative;perspective:1800px;min-width:0}
+.dots,.swipe{display:none}
 .cell:nth-child(2){margin-top:60px}
 .cell:nth-child(3){margin-top:-28px}
 .cell:nth-child(4){margin-top:32px}
@@ -290,7 +291,13 @@ footer a{color:var(--wine);font-weight:700;text-decoration:none}
   .steps::before{display:none}
 }
 @media (max-width:640px){
-  .doors{grid-template-columns:1fr;gap:28px}
+  .doors{position:relative;display:flex;gap:14px;overflow-x:auto;scroll-snap-type:x mandatory;-webkit-overflow-scrolling:touch;scrollbar-width:none;margin:40px -18px 0;padding:18px 9% 26px}
+  .doors::-webkit-scrollbar{display:none}
+  .cell{flex:0 0 82%;scroll-snap-align:center}
+  .dots{display:flex;justify-content:center;gap:8px;margin-top:4px}
+  .dots button{width:9px;height:9px;padding:0;border-radius:50%;border:1px solid var(--gold);background:transparent;cursor:pointer;transition:background .2s,transform .2s}
+  .dots button.on{background:var(--gold-hi);transform:scale(1.25)}
+  .swipe{display:block;margin-top:12px;font:700 12px var(--f-body);letter-spacing:.14em;text-transform:uppercase;color:rgba(241,217,160,.75)}
   .cell:nth-child(n){margin-top:0}
   .cell.lifted .card{transform:translateZ(30px) translateY(-6px) scale(1.02)}
   .advent>.wrap{padding-block:70px 80px}
@@ -654,12 +661,14 @@ const UTM=(()=>{try{const p=new URLSearchParams(location.search);let s="";["utm_
   });
   const tg=document.getElementById('toggleAll');
   function syncToggle(){ const anyClosed=cells.some(c=>!c.classList.contains('open')); tg.textContent=anyClosed?'Открыть все дверцы':'Закрыть все дверцы'; }
+  // мобильная карусель: точки и подсказка «листай»
+  try{const box=document.querySelector('.doors');const sw=document.createElement('span');sw.className='swipe';sw.textContent='Листай вбок →';box.before(sw);const dots=document.createElement('div');dots.className='dots';cells.forEach((c,i)=>{const b=document.createElement('button');b.type='button';b.setAttribute('aria-label','Дверца '+(i+1));b.addEventListener('click',()=>box.scrollTo({left:c.offsetLeft-(box.clientWidth-c.clientWidth)/2,behavior:'smooth'}));dots.appendChild(b)});box.after(dots);const mark=()=>{const mid=box.scrollLeft+box.clientWidth/2;let k=0,best=1e9;cells.forEach((c,i)=>{const d=Math.abs(c.offsetLeft+c.clientWidth/2-mid);if(d<best){best=d;k=i}});[...dots.children].forEach((b,i)=>b.classList.toggle('on',i===k));if(k>0)sw.style.visibility='hidden'};box.addEventListener('scroll',mark,{passive:true});mark()}catch(e){}
   tg.addEventListener('click',()=>{
     const anyClosed=cells.some(c=>!c.classList.contains('open'));
     cells.forEach((c,i)=>setTimeout(()=>anyClosed?openCell(c):closeCell(c), reduce?0:i*200));
   });
 
-  try{const seen={};const io=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting&&!seen[e.target.id]){seen[e.target.id]=1;try{ym(114133357,'reachGoal','reach_'+e.target.id)}catch(_){}}}),{threshold:0.25});['calendar','offer'].forEach(id=>{const el=document.getElementById(id);if(el)io.observe(el)})}catch(e){} // таймер
+  try{const seen={};const io=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting&&!seen[e.target.id]){seen[e.target.id]=1;try{ym(114133357,'reachGoal','reach_'+e.target.id)}catch(_){}}}),{threshold:0,rootMargin:'0px 0px -35% 0px'});['calendar','offer'].forEach(id=>{const el=document.getElementById(id);if(el)io.observe(el)})}catch(e){} // таймер
   const end=new Date('2026-11-11T23:59:59+03:00').getTime();
   const pad=n=>String(n).padStart(2,'0');
   const plural=(n,a,b,c)=>{const m=n%10,h=n%100;if(m===1&&h!==11)return a;if(m>=2&&m<=4&&(h<12||h>14))return b;return c;};
