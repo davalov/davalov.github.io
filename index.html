@@ -147,7 +147,8 @@ p{margin:0}
 
 .doors{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:40px 40px;max-width:940px;margin:56px auto 0;text-align:left}
 .cell{position:relative;perspective:1800px;min-width:0}
-.dots,.swipe{display:none}
+.scrim{position:fixed;inset:0;background:rgba(20,3,6,.72);z-index:55;opacity:0;pointer-events:none;transition:opacity .35s}
+.scrim.on{opacity:1;pointer-events:auto}
 .cell:nth-child(2){margin-top:60px}
 .cell:nth-child(3){margin-top:-28px}
 .cell:nth-child(4){margin-top:32px}
@@ -291,14 +292,26 @@ footer a{color:var(--wine);font-weight:700;text-decoration:none}
   .steps::before{display:none}
 }
 @media (max-width:640px){
-  .doors{position:relative;display:flex;gap:14px;overflow-x:auto;scroll-snap-type:x mandatory;-webkit-overflow-scrolling:touch;scrollbar-width:none;margin:40px -18px 0;padding:18px 9% 26px}
-  .doors::-webkit-scrollbar{display:none}
-  .cell{flex:0 0 82%;scroll-snap-align:center}
-  .dots{display:flex;justify-content:center;gap:8px;margin-top:4px}
-  .dots button{width:9px;height:9px;padding:0;border-radius:50%;border:1px solid var(--gold);background:transparent;cursor:pointer;transition:background .2s,transform .2s}
-  .dots button.on{background:var(--gold-hi);transform:scale(1.25)}
-  .swipe{display:block;margin-top:12px;font:700 12px var(--f-body);letter-spacing:.14em;text-transform:uppercase;color:rgba(241,217,160,.75)}
+  .doors{display:grid;grid-template-columns:repeat(6,minmax(0,1fr));gap:12px;margin-top:34px}
+  .cell{grid-column:span 2;aspect-ratio:3/4}
+  .cell[data-key=muz]{grid-column:2 / span 2}
   .cell:nth-child(n){margin-top:0}
+  .advent #toggleAll{display:none}
+  .cell:not(.pop) .recess{height:100%;padding:0;overflow:hidden}
+  .cell:not(.pop) .card,.cell:not(.pop) .lamp,.cell:not(.pop) .glow{visibility:hidden}
+  .cell:not(.pop) .door{padding:6px;gap:4px;box-shadow:0 10px 18px -10px rgba(0,0,0,.75),inset 0 0 0 1px rgba(201,154,69,.35)}
+  .cell:not(.pop) .door::before{inset:6px}
+  .cell:not(.pop) .door .num{font-size:40px}
+  .cell:not(.pop) .door .hint{font-size:9px;letter-spacing:.12em}
+  .cell:not(.pop) .door .knob{right:10px;width:7px;height:7px}
+  .cell.pop{position:fixed;z-index:60;margin:0;aspect-ratio:auto;transform-origin:0 0}
+
+
+
+
+
+
+
   .cell.lifted .card{transform:translateZ(30px) translateY(-6px) scale(1.02)}
   .advent>.wrap{padding-block:70px 80px}
   .bubble{max-width:170px;font-size:13px}
@@ -649,9 +662,40 @@ const UTM=(()=>{try{const p=new URLSearchParams(location.search);let s="";["utm_
     }, reduce?0:550);
     syncToggle();
   }
+  // телефон: ячейка выезжает в центр, крестик возвращает её на место
+  const mq=matchMedia('(max-width:640px)');
+  const scrim=document.createElement('div'); scrim.className='scrim'; document.body.appendChild(scrim);
+  let popped=null;
+  function popOut(c){
+    if(popped) return; popped=c;
+    const r=c.getBoundingClientRect();
+    const ph=document.createElement('div'); ph.style.gridColumn=getComputedStyle(c).gridColumn; ph.style.aspectRatio='3/4'; c.before(ph); c._ph=ph;
+    const W=Math.min(innerWidth*0.92,420), L=(innerWidth-W)/2;
+    c.classList.add('pop'); c.style.width=W+'px'; c.style.left=L+'px'; c.style.top='0px';
+    let h=c.offsetHeight; const maxH=innerHeight-32;
+    if(h>maxH){ c.style.maxHeight=maxH+'px'; c.style.overflowY='auto'; h=maxH; }
+    const T=Math.max(16,(innerHeight-h)/2); c.style.top=T+'px';
+    c.style.transition='none';
+    c.style.transform='translate('+(r.left-L)+'px,'+(r.top-T)+'px) scale('+(r.width/W)+','+(r.height/h)+')';
+    c.offsetWidth;
+    c.style.transition='transform .45s cubic-bezier(.2,.8,.2,1)'; c.style.transform='none';
+    scrim.classList.add('on'); document.documentElement.style.overflow='hidden';
+    setTimeout(()=>openCell(c), reduce?0:430);
+  }
+  function popIn(c){
+    if(popped!==c||c._closing) return; c._closing=1;
+    closeCell(c); scrim.classList.remove('on');
+    setTimeout(()=>{
+      const r=c._ph.getBoundingClientRect(), cr=c.getBoundingClientRect();
+      c.style.transition='transform .42s cubic-bezier(.4,0,.2,1)';
+      c.style.transform='translate('+(r.left-cr.left)+'px,'+(r.top-cr.top)+'px) scale('+(r.width/cr.width)+','+(r.height/cr.height)+')';
+      setTimeout(()=>{ c.classList.remove('pop'); c.removeAttribute('style'); c._ph.remove(); c._closing=0; popped=null; document.documentElement.style.overflow=''; }, reduce?0:440);
+    }, reduce?0:1100);
+  }
+  scrim.addEventListener('click',()=>{ if(popped) popIn(popped); });
   cells.forEach(c=>{
-    c.querySelector('.door').addEventListener('click',()=>openCell(c));
-    c.querySelector('.close').addEventListener('click',()=>closeCell(c));
+    c.querySelector('.door').addEventListener('click',()=>mq.matches?popOut(c):openCell(c));
+    c.querySelector('.close').addEventListener('click',()=>popped===c?popIn(c):closeCell(c));
     c.querySelector('.mute').addEventListener('click',()=>{
       const v=c.querySelector('video'); const willUnmute=v.muted;
       if(willUnmute) cells.forEach(o=>{ if(o!==c) setMute(o,true); });
@@ -661,8 +705,8 @@ const UTM=(()=>{try{const p=new URLSearchParams(location.search);let s="";["utm_
   });
   const tg=document.getElementById('toggleAll');
   function syncToggle(){ const anyClosed=cells.some(c=>!c.classList.contains('open')); tg.textContent=anyClosed?'Открыть все дверцы':'Закрыть все дверцы'; }
-  // мобильная карусель: точки и подсказка «листай»
-  try{const box=document.querySelector('.doors');const sw=document.createElement('span');sw.className='swipe';sw.textContent='Листай вбок →';box.before(sw);const dots=document.createElement('div');dots.className='dots';cells.forEach((c,i)=>{const b=document.createElement('button');b.type='button';b.setAttribute('aria-label','Дверца '+(i+1));b.addEventListener('click',()=>box.scrollTo({left:c.offsetLeft-(box.clientWidth-c.clientWidth)/2,behavior:'smooth'}));dots.appendChild(b)});box.after(dots);const mark=()=>{const mid=box.scrollLeft+box.clientWidth/2;let k=0,best=1e9;cells.forEach((c,i)=>{const d=Math.abs(c.offsetLeft+c.clientWidth/2-mid);if(d<best){best=d;k=i}});[...dots.children].forEach((b,i)=>b.classList.toggle('on',i===k));if(k>0)sw.style.visibility='hidden'};box.addEventListener('scroll',mark,{passive:true});mark()}catch(e){}
+
+
   tg.addEventListener('click',()=>{
     const anyClosed=cells.some(c=>!c.classList.contains('open'));
     cells.forEach((c,i)=>setTimeout(()=>anyClosed?openCell(c):closeCell(c), reduce?0:i*200));
