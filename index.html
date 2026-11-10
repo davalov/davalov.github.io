@@ -88,7 +88,7 @@ p{margin:0}
 .cta-wrap{position:relative;display:inline-block;margin-top:34px}
 .hero .cta-wrap .cta{margin-top:0}
 .peek{position:absolute;right:calc(100% + 6px);bottom:-80px;width:clamp(200px,24vw,340px);aspect-ratio:2/1;pointer-events:none}
-.peek video{width:100%;height:100%;display:block;mix-blend-mode:multiply}
+.peek img{width:100%;height:100%;display:block;object-fit:contain}
 @media (max-width:760px){
   .hero{padding-bottom:0}
   .cta-wrap{display:flex;flex-direction:column;align-items:center}
@@ -457,7 +457,7 @@ footer a{color:var(--wine);font-weight:700;text-decoration:none}
     </div>
     <p class="timer-note" data-note>Спецпредложение сгорит 11 ноября в 23:59 по Москве</p>
     <div class="cta-wrap">
-      <div class="peek" aria-hidden="true"><video src="peek.mp4" poster="peek.jpg" muted playsinline loop autoplay preload="auto"></video></div>
+      <div class="peek" aria-hidden="true"><img src="peek.webp" alt="" width="840" height="420" decoding="async"></div>
       <a class="cta" href="#calendar">Смотреть интерактивы <svg><use href="#down"/></svg></a>
     </div>
   </div>
